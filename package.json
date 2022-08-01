@@ -1,0 +1,38 @@
+{
+		"name": "@2ndkauboy/dark-mode-for-astra",
+		"version": "1.0.0",
+		"description": "A plugin to add a dark mode toggle to the frontend using one of the color schemes defined in the customizer.",
+		"author": "Bernhard Kau",
+		"license": "GPL-3.0-or-later",
+		"main": "build/index.js",
+		"scripts": {
+				"build": "wp-scripts build",
+				"build:dark-rtl": "rtlcss build/frontend.css build/frontend-rtl.css",
+				"check-engines": "wp-scripts check-engines",
+				"check-licenses": "wp-scripts check-licenses",
+				"format:js": "wp-scripts format-js",
+				"format:js:src": "wp-scripts format-js ./src",
+				"lint:css": "wp-scripts lint-style",
+				"lint:css:src": "wp-scripts lint-style 'src/**/*.css'",
+				"lint:js": "wp-scripts lint-js",
+				"lint:js:src": "wp-scripts lint-js ./src",
+				"lint:md:docs": "wp-scripts lint-md-docs",
+				"lint:md:js": "wp-scripts lint-md-js",
+				"lint:pkg-json": "wp-scripts lint-pkg-json",
+				"make-pot": "wp i18n make-pot . languages/dark-mode-for-astra.pot --exclude=vendor,node_modules,src",
+				"make-json": "wp i18n make-json languages/ --no-purge",
+				"packages-update": "wp-scripts packages-update",
+				"postpackages-update": "npm run build",
+				"start": "wp-scripts start",
+				"test:e2e": "wp-scripts test-e2e",
+				"test:unit": "wp-scripts test-unit-js"
+		},
+		"devDependencies": {
+				"@wordpress/eslint-plugin": "^12.1.0",
+				"@wordpress/scripts": "^22.5.0",
+				"classnames": "^2.3.1",
+				"rtlcss": "^3.5.0",
+				"svg-spritemap-webpack-plugin": "^4.3.3",
+				"url-loader": "^4.1.1"
+		}
+}

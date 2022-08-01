@@ -1,0 +1,17 @@
+:root {
+	--global--spacing-horizontal: 25px;
+	--global--spacing-vertical: 30px;
+	--global--font-size-xs: 1rem;
+	--global--color-green: #d1e4dd;
+	--global--color-gray: #39414d;
+	--global--color-background: var(--global--color-green);
+	--global--color-secondary: var(--global--color-gray);
+
+
+	--responsive--spacing-horizontal: calc(2 * var(--global--spacing-horizontal) * 0.6);
+	--responsive--alignwide-width: calc(100vw - var(--responsive--spacing-horizontal));
+
+
+	--button--color-background-active: var(--global--color-background);
+	--button--color-text-active: var(--global--color-secondary);
+}
