@@ -1,0 +1,17 @@
+*.lock
+.distignore
+.editorconfig
+.eslintrc
+.git
+.gitattributes
+.github
+.gitignore
+.stylelintrc.json
+.wordpress-org
+composer.json
+node_modules
+src
+package.json
+phpcs.xml
+tests
+webpack.config.js
