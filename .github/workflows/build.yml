@@ -1,0 +1,50 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run npm build script
+        run: npm run build
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --no-progress --no-suggest
+
+      - name: Get repository name
+        id: repo_name
+        run: echo "::set-output name=name::$(basename -s .git $(git config --get remote.origin.url))"
+
+      - name: Create ZIP file
+        run: |
+          TAG_NAME=$(echo "${GITHUB_REF#refs/tags/}")
+          ZIP_FILE="${{ steps.repo_name.outputs.name }}-${TAG_NAME//./}.zip"
+          zip -r "$ZIP_FILE" .
+
+      - name: Upload ZIP file
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: ${{ steps.build.outputs.ZIP_FILE }}

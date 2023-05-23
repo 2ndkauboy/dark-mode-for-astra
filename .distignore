@@ -1,0 +1,15 @@
+*.lock
+composer.json
+.distignore
+.editorconfig
+.env
+.env.testing
+.git
+.gitattributes
+.github
+.gitignore
+node_modules
+phpcs.xml
+tests
+.wordpress-org
+yarn.lock
