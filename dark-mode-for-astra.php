@@ -16,6 +16,7 @@
  * Text Domain: dark-mode-for-astra
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
+ * GitHub Plugin URI: https://github.com/2ndkauboy/dark-mode-for-astra
  */
 
 define( 'DMFA_VERSION', '1.0.0' );
