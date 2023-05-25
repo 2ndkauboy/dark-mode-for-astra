@@ -35,6 +35,7 @@ class DarkMode {
 				'id'           => 'dark-mode-toggler',
 				'class'        => 'fixed-bottom',
 				'aria-pressed' => 'false',
+				'onClick'      => 'astraToggleDarkMode()',
 			]
 		);
 		echo '<button';
@@ -50,14 +51,30 @@ class DarkMode {
 		echo '</button>';
 		?>
 		<style>
+			#dark-mode-toggler > span {
+				margin-<?php echo is_rtl() ? 'right' : 'left'; ?>: 5px;
+			}
 			#dark-mode-toggler > span::before {
 				content: '<?php esc_attr_e( 'Off', 'dark-mode-for-astra' ); ?>';
 			}
-
 			#dark-mode-toggler[aria-pressed="true"] > span::before {
 				content: '<?php esc_attr_e( 'On', 'dark-mode-for-astra' ); ?>';
 			}
+			<?php if ( is_admin() || wp_is_json_request() ) : ?>
+				.components-editor-notices__pinned ~ .edit-post-visual-editor #dark-mode-toggler {
+					z-index: 20;
+				}
+				.is-dark-theme.is-dark-theme #dark-mode-toggler:not(:hover):not(:focus) {
+					color: var(--global--color-primary);
+				}
+				@media only screen and (max-width: 782px) {
+					#dark-mode-toggler {
+						margin-top: 32px;
+					}
+				}
+			<?php endif; ?>
 		</style>
+
 		<?php
 	}
 
@@ -84,5 +101,20 @@ class DarkMode {
 			}
 		</style>
 		<?php
+	}
+
+	/**
+	 * Adds information to the privacy policy.
+	 *
+	 * @return void
+	 */
+	public function add_privacy_policy_content() {
+		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
+			return;
+		}
+		$content = '<p class="privacy-policy-tutorial">' . __( 'Dark Mode for Astra uses LocalStorage when Dark Mode support is enabled.', 'dark-mode-for-astra' ) . '</p>'
+				   . '<strong class="privacy-policy-tutorial">' . __( 'Suggested text:', 'dark-mode-for-astra' ) . '</strong> '
+				   . __( 'This website uses LocalStorage to save the setting when Dark Mode support is turned on or off.<br> LocalStorage is necessary for the setting to work and is only used when a user clicks on the Dark Mode button.<br> No data is saved in the database or transferred.', 'dark-mode-for-astra' );
+		wp_add_privacy_policy_content( __( 'Dark Mode for Astra', 'dark-mode-for-astra' ), wp_kses_post( wpautop( $content, false ) ) );
 	}
 }
