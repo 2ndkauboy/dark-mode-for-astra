@@ -26,7 +26,7 @@
 		min-width: max-content;
 		border: 2px solid currentColor;
 		box-shadow: none;
-		background: var(--button--color-text);
+		background: inherit;
 		color: var(--button--color-background);
 		z-index: 9998;
 
@@ -92,9 +92,10 @@
 				transition: bottom 0.5s;
 			}
 		}
+	}
 
-		#dark-mode-toggler > span {
-			margin-left: 5px;
-		}
+	// Adjust the "scroll to top" button position, as otherwise the buttons overlap.
+	.ast-scroll-to-top-right {
+		bottom: 64px;
 	}
 }
