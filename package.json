@@ -28,10 +28,10 @@
 				"test:unit": "wp-scripts test-unit-js"
 		},
 		"devDependencies": {
-				"@wordpress/eslint-plugin": "^12.1.0",
-				"@wordpress/scripts": "^22.5.0",
+				"@wordpress/eslint-plugin": "^14.7.0",
+				"@wordpress/scripts": "^26.5.0",
 				"classnames": "^2.3.1",
-				"rtlcss": "^3.5.0",
+				"rtlcss": "^4.1.0",
 				"svg-spritemap-webpack-plugin": "^4.3.3",
 				"url-loader": "^4.1.1"
 		}
