@@ -89,15 +89,37 @@ class DarkMode {
 		 *
 		 * @param string $color_palette The option's index key of the color palette to be used. Default: 'palette_2'.
 		 */
-		$dark_mode_color_palette = apply_filters( 'dmfa_color_palett', 'palette_2' );
+		$light_mode_color_palette = apply_filters( 'dmfa_color_palett', 'palette_1' );
+		$dark_mode_color_palette  = apply_filters( 'dmfa_color_palett', 'palette_2' );
+		echo '<!--';
+		print_r($color_palettes['palettes']);
+		echo '-->';
 		?>
 		<style>
-			:root .is-dark-theme {
-			<?php
-			foreach ( $color_palettes['palettes'][ $dark_mode_color_palette ] as $key => $value ) {
-				echo "--ast-global-color-$key: $value;"; // phpcs:ignore
+			html:not(.is-dark-theme) {
+				--ast-dark-mode--button-text-color: #fff;
+				--ast-dark-mode--button-border-color: <?php echo esc_attr( $color_palettes['palettes'][ $light_mode_color_palette ][0] ); ?>;
+				--ast-dark-mode--button-background-color: <?php echo esc_attr( $color_palettes['palettes'][ $light_mode_color_palette ][0] ); ?>;
+				--ast-dark-mode--button-text-color-active: <?php echo esc_attr( $color_palettes['palettes'][ $light_mode_color_palette ][1] ); ?>;
+				--ast-dark-mode--button-border-color-active: <?php echo esc_attr( $color_palettes['palettes'][ $light_mode_color_palette ][1] ); ?>;
+				--ast-dark-mode--button-background-color-active: transparent;
 			}
-			?>
+			html.is-dark-theme {
+				<?php
+				foreach ( $color_palettes['palettes'][ $dark_mode_color_palette ] as $key => $value ) {
+					printf(
+						'--ast-global-color-%d: %s;',
+						(int) $key,
+						esc_attr( $value )
+					);
+				}
+				?>
+				--ast-dark-mode--button-text-color: <?php echo esc_attr( $color_palettes['palettes'][ $dark_mode_color_palette ][0] ); ?>;
+				--ast-dark-mode--button-border-color: <?php echo esc_attr( $color_palettes['palettes'][ $dark_mode_color_palette ][0] ); ?>;
+				--ast-dark-mode--button-background-color: transparent;
+				--ast-dark-mode--button-text-color-active: #fff;
+				--ast-dark-mode--button-border-color-active: <?php echo esc_attr( $color_palettes['palettes'][ $dark_mode_color_palette ][1] ); ?>;
+				--ast-dark-mode--button-background-color-active: <?php echo esc_attr( $color_palettes['palettes'][ $dark_mode_color_palette ][1] ); ?>;
 			}
 		</style>
 		<?php

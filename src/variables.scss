@@ -2,16 +2,15 @@
 	--global--spacing-horizontal: 25px;
 	--global--spacing-vertical: 30px;
 	--global--font-size-xs: 1rem;
-	--global--color-green: #d1e4dd;
-	--global--color-gray: #39414d;
-	--global--color-background: var(--global--color-green);
-	--global--color-secondary: var(--global--color-gray);
-
 
 	--responsive--spacing-horizontal: calc(2 * var(--global--spacing-horizontal) * 0.6);
 	--responsive--alignwide-width: calc(100vw - var(--responsive--spacing-horizontal));
 
+	--button--color-text: var(--ast-dark-mode--button-text-color);
+	--button--color-border: var(--ast-dark-mode--button-border-color);
+	--button--color-background: var(--ast-dark-mode--button-background-color);
 
-	--button--color-background-active: var(--global--color-background);
-	--button--color-text-active: var(--global--color-secondary);
+	--button--color-text-active: var(--ast-dark-mode--button-text-color-active);
+	--button--color-border-active: var(--ast-dark-mode--button-border-color-active);
+	--button--color-background-active: var(--ast-dark-mode--button-background-color-active);
 }
