@@ -83,6 +83,7 @@ class DarkMode {
 	 */
 	public function astra_color_palettes() {
 		$color_palettes = get_option( 'astra-color-palettes' );
+		$astra_settings = get_option( 'astra-settings' );
 
 		/**
 		 * Filters for the color palett to be used for the dark mode.
@@ -91,9 +92,6 @@ class DarkMode {
 		 */
 		$light_mode_color_palette = apply_filters( 'dmfa_color_palett', 'palette_1' );
 		$dark_mode_color_palette  = apply_filters( 'dmfa_color_palett', 'palette_2' );
-		echo '<!--';
-		print_r($color_palettes['palettes']);
-		echo '-->';
 		?>
 		<style>
 			html:not(.is-dark-theme) {

@@ -1,9 +1,8 @@
-name: Build and Release
+name: Build release ZIP
 
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [published]
 
 jobs:
   build:
