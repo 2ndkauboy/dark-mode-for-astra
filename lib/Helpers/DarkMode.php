@@ -17,7 +17,8 @@ class DarkMode {
 	 */
 	public function init() {
 		// Add the switch on the frontend.
-		add_action( 'wp_footer', [ $this, 'the_html' ] );
+		add_shortcode( 'dark-mode-for-astra-toggle', [ $this, 'the_html' ] );
+		add_action( 'wp_footer', [ $this, 'maybe_inject_fixed_button' ] );
 		add_action( 'wp_footer', [ $this, 'astra_color_palettes' ] );
 	}
 
@@ -29,15 +30,18 @@ class DarkMode {
 	 * @param array $attrs The attributes to add to our <button> element.
 	 */
 	public function the_html( $attrs = [] ) {
-		$attrs = wp_parse_args(
-			$attrs,
+		$attrs = shortcode_atts(
 			[
 				'id'           => 'dark-mode-toggler',
-				'class'        => 'fixed-bottom',
+				'class'        => '',
 				'aria-pressed' => 'false',
 				'onClick'      => 'astraToggleDarkMode()',
-			]
+			],
+			$attrs
 		);
+
+		ob_start();
+
 		echo '<button';
 		foreach ( $attrs as $key => $val ) {
 			echo ' ' . esc_attr( $key ) . '="' . esc_attr( $val ) . '"';
@@ -76,6 +80,55 @@ class DarkMode {
 		</style>
 
 		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * When the shortcode is not used in any sidebar, inject the button as a fixed button in the `wp_footer`.
+	 *
+	 * @return void
+	 */
+	public function maybe_inject_fixed_button() {
+		if ( $this->is_using_shortcode_in_sidebar() ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $this->the_html( [ 'class' => 'fixed-bottom' ] );
+	}
+
+	/**
+	 * A helper function that tries to find the shortcode in all widgets in all sidebars.
+	 *
+	 * @return bool
+	 */
+	private function is_using_shortcode_in_sidebar() {
+		// Get the sidebar widgets.
+		$sidebar_widgets = wp_get_sidebars_widgets();
+
+		// Loop through all sidebars.
+		foreach ( $sidebar_widgets as $sidebar_widget ) {
+			// Loop through each widget in the current sidebar.
+			foreach ( $sidebar_widget as $widget_id ) {
+				// Get the widget instance.
+				$widget_base_pair = wp_parse_widget_id( $widget_id );
+				$widget_instance  = get_option( 'widget_' . $widget_base_pair['id_base'] );
+
+				// Check if the widget instance exists.
+				if ( false !== $widget_instance ) {
+					// Access the content property of the widget instance.
+					$widget_content = isset( $widget_instance['_multiwidget'] ) ? $widget_instance[ $widget_base_pair['number'] ]['content'] : '';
+
+					// Check if the shortcode is used in the widget text.
+					if ( has_shortcode( $widget_content, 'dark-mode-for-astra-toggle' ) ) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
