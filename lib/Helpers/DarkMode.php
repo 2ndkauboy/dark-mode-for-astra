@@ -35,7 +35,6 @@ class DarkMode {
 				'id'           => 'dark-mode-toggler',
 				'class'        => '',
 				'aria-pressed' => 'false',
-				'onClick'      => 'astraToggleDarkMode()',
 			],
 			$attrs
 		);
