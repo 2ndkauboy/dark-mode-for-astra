@@ -42,9 +42,11 @@ function darkModeInitialLoad() {
 		toggler.setAttribute( 'aria-pressed', 'true' );
 	}
 
-	if ( 'fixed' === window.getComputedStyle( document.getElementById( 'dark-mode-toggler' ) ).position ) {
+	if ( 'fixed' === window.getComputedStyle( toggler ).position ) {
 		darkModeRepositionTogglerOnScroll();
 	}
+
+	toggler.addEventListener( 'click', astraToggleDarkMode );
 }
 
 function darkModeRepositionTogglerOnScroll() {
