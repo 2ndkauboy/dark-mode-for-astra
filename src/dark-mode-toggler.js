@@ -41,6 +41,10 @@ function darkModeInitialLoad() {
 	if ( toggler && isDarkMode ) {
 		toggler.setAttribute( 'aria-pressed', 'true' );
 	}
+
+	if ( 'fixed' === window.getComputedStyle( document.getElementById( 'dark-mode-toggler' ) ).position ) {
+		darkModeRepositionTogglerOnScroll();
+	}
 }
 
 function darkModeRepositionTogglerOnScroll() {
@@ -49,7 +53,7 @@ function darkModeRepositionTogglerOnScroll() {
 		prevScroll = window.scrollY || document.documentElement.scrollTop,
 		currentScroll,
 
-		checkScroll = function() {
+		checkScroll = function () {
 			currentScroll = window.scrollY || document.documentElement.scrollTop;
 			if (
 				currentScroll + ( window.innerHeight * 1.5 ) > document.body.clientHeight ||
@@ -68,7 +72,6 @@ function darkModeRepositionTogglerOnScroll() {
 }
 
 darkModeInitialLoad();
-darkModeRepositionTogglerOnScroll();
 
 // This is needed additionally to the Twenty Twenty-One, since the function `astraToggleDarkMode` is in a closure.
 window.astraToggleDarkMode = astraToggleDarkMode;
