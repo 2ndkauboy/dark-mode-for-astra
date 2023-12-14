@@ -63,7 +63,7 @@ function dmfa_pre_init() {
  * Load plugin textdomain.
  */
 function dmfa_load_textdomain() {
-	load_plugin_textdomain( 'dark-mode-for-astra', false, basename( dirname( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'dark-mode-for-astra', false, basename( __DIR__ ) . '/languages' );
 }
 
 /**
