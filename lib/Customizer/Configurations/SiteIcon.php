@@ -61,31 +61,31 @@ class SiteIcon {
 			/**
 			 * Option: Retina logo selector
 			 */
-			array(
+			[
 				'name'              => ASTRA_THEME_SETTINGS . '[ast-header-dark-mode-logo]',
 				'default'           => astra_get_option( 'ast-header-dark-mode-logo' ),
 				'type'              => 'control',
 				'control'           => 'image',
 				'sanitize_callback' => 'esc_url_raw',
 				'section'           => 'title_tagline',
-				'context'           => array(
-					array(
+				'context'           => [
+					[
 						'setting'  => ASTRA_THEME_SETTINGS . '[different-dark-mode-logo]',
 						'operator' => '!=',
 						'value'    => 0,
-					),
+					],
 					Astra_Builder_Helper::$general_tab_config,
-				),
+				],
 				'priority'          => 4.5,
 				'title'             => __( 'Darf Mode Logo', 'dark-mode-for-astra' ),
-				'library_filter'    => array( 'gif', 'jpg', 'jpeg', 'png', 'ico' ),
+				'library_filter'    => [ 'gif', 'jpg', 'jpeg', 'png', 'ico' ],
 				'transport'         => 'postMessage',
-				'partial'           => array(
+				'partial'           => [
 					'selector'            => '.site-branding',
 					'container_inclusive' => false,
 					'render_callback'     => 'Astra_Builder_Header::site_identity',
-				),
-			),
+				],
+			],
 		];
 
 		$configurations = array_merge( $configurations, $_configs );
