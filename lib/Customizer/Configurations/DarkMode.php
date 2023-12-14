@@ -71,6 +71,311 @@ class DarkMode {
 				'renderAs'   => 'text',
 				'divider'    => [ 'ast_class' => 'ast-section-spacing' ],
 			],
+
+			/**
+			 * Buttons
+			 */
+			[
+				'name'     => 'section-dark-mode-for-astra-buttons',
+				'type'     => 'section',
+				'priority' => 5,
+				'title'    => __( 'Buttons', 'dark-mode-for-astra' ),
+				'panel'    => 'panel-dark-mode-for-astra',
+			],
+
+			/**
+			 * Option: Light Mode Color Heading
+			 */
+			[
+				'name'     => ASTRA_THEME_SETTINGS . '[dmfa-light-color-color-divider-divider]',
+				'type'     => 'control',
+				'control'  => 'ast-heading',
+				'section'  => 'section-dark-mode-for-astra-buttons',
+				'title'    => __( 'Light Mode Button Colors', 'dark-mode-for-astra' ),
+				'priority' => 15,
+				'settings' => [],
+				'divider'  => [ 'ast_class' => 'ast-section-spacing' ],
+			],
+
+			/**
+			 * Group: Light Mode Button Color Group
+			 */
+			[
+				'name'      => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-color-group]',
+				'default'   => astra_get_option( 'dmfa-light-color-button-color-group' ),
+				'type'      => 'control',
+				'control'   => 'ast-color-group',
+				'title'     => __( 'Text Color', 'dark-mode-for-astra' ),
+				'section'   => 'section-dark-mode-for-astra-buttons',
+				'transport' => 'postMessage',
+				'priority'  => 20,
+			],
+			/**
+			 * Option: Button Color
+			 */
+			[
+				'name'              => 'dmfa-light-button-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-color-group]',
+				'default'           => astra_get_option( 'dmfa-light-button-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Normal', 'dark-mode-for-astra' ),
+				'priority'          => 21,
+			],
+			/**
+			 * Option: Button Hover Color
+			 */
+			[
+				'name'              => 'dmfa-light-button-h-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-color-group]',
+				'default'           => astra_get_option( 'dmfa-light-button-h-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Hover', 'dark-mode-for-astra' ),
+				'priority'          => 21,
+			],
+
+			/**
+			 * Group: Light Mode Button Background Colors Group
+			 */
+			[
+				'name'      => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-bg-color-group]',
+				'default'   => astra_get_option( 'dmfa-light-color-button-bg-color-group' ),
+				'type'      => 'control',
+				'control'   => 'ast-color-group',
+				'title'     => __( 'Background Color', 'dark-mode-for-astra' ),
+				'section'   => 'section-dark-mode-for-astra-buttons',
+				'transport' => 'postMessage',
+				'priority'  => 30,
+			],
+			/**
+			 * Option: Button Background Color
+			 */
+			[
+				'name'              => 'dmfa-light-button-bg-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-bg-color-group]',
+				'default'           => astra_get_option( 'dmfa-light-button-bg-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Normal', 'dark-mode-for-astra' ),
+				'priority'          => 31,
+			],
+			/**
+			 * Option: Button Background Hover Color
+			 */
+			[
+				'name'              => 'dmfa-light-button-bg-h-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-bg-color-group]',
+				'default'           => astra_get_option( 'dmfa-light-button-bg-h-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Hover', 'dark-mode-for-astra' ),
+				'priority'          => 31,
+			],
+
+			/**
+			 * Group: Light Mode Button Border Group
+			 */
+			[
+				'name'      => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-border-color-group]',
+				'default'   => astra_get_option( 'dmfa-light-color-button-border-color-group' ),
+				'type'      => 'control',
+				'control'   => 'ast-color-group',
+				'section'   => 'section-dark-mode-for-astra-buttons',
+				'transport' => 'postMessage',
+				'title'     => __( 'Border Color', 'dark-mode-for-astra' ),
+				'priority'  => 40,
+				'divider'   => [ 'ast_class' => 'ast-bottom-dotted-divider' ],
+			],
+			/**
+			 * Option: Global Button Border Color
+			 */
+			[
+				'name'              => 'dmfa-light-color-button-border-group-border-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-border-color-group]',
+				'default'           => astra_get_option( 'dmfa-light-color-button-border-group-border-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Normal', 'dark-mode-for-astra' ),
+				'priority'          => 41,
+			],
+			/**
+			 * Option: Global Button Border Hover Color
+			 */
+			[
+				'name'              => 'dmfa-light-color-button-border-group-border-h-color',
+				'default'           => astra_get_option( 'dmfa-light-color-button-border-group-border-h-color' ),
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-light-color-button-border-color-group]',
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Hover', 'dark-mode-for-astra' ),
+				'priority'          => 41,
+			],
+
+			/**
+			 * Option: Dark Mode Color Heading
+			 */
+			[
+				'name'     => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-color-divider-divider]',
+				'type'     => 'control',
+				'control'  => 'ast-heading',
+				'section'  => 'section-dark-mode-for-astra-buttons',
+				'title'    => __( 'Dark Mode Button Colors', 'dark-mode-for-astra' ),
+				'priority' => 50,
+				'settings' => [],
+				'divider'  => [ 'ast_class' => 'ast-section-spacing' ],
+			],
+
+			/**
+			 * Group: Dark Mode Button Color Group
+			 */
+			[
+				'name'      => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-color-group]',
+				'default'   => astra_get_option( 'dmfa-dark-color-button-color-group' ),
+				'type'      => 'control',
+				'control'   => 'ast-color-group',
+				'title'     => __( 'Text Color', 'dark-mode-for-astra' ),
+				'section'   => 'section-dark-mode-for-astra-buttons',
+				'transport' => 'postMessage',
+				'priority'  => 60,
+			],
+			/**
+			 * Option: Button Color
+			 */
+			[
+				'name'              => 'dmfa-dark-button-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-color-group]',
+				'default'           => astra_get_option( 'dmfa-dark-button-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Normal', 'dark-mode-for-astra' ),
+				'priority'          => 61,
+			],
+			/**
+			 * Option: Button Hover Color
+			 */
+			[
+				'name'              => 'dmfa-dark-button-h-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-color-group]',
+				'default'           => astra_get_option( 'dmfa-dark-button-h-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Hover', 'dark-mode-for-astra' ),
+				'priority'          => 61,
+			],
+
+			/**
+			 * Group: Dark Mode Button Background Colors Group
+			 */
+			[
+				'name'      => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-bg-color-group]',
+				'default'   => astra_get_option( 'dmfa-dark-color-button-bg-color-group' ),
+				'type'      => 'control',
+				'control'   => 'ast-color-group',
+				'title'     => __( 'Background Color', 'dark-mode-for-astra' ),
+				'section'   => 'section-dark-mode-for-astra-buttons',
+				'transport' => 'postMessage',
+				'priority'  => 70,
+			],
+			/**
+			 * Option: Button Background Color
+			 */
+			[
+				'name'              => 'dmfa-dark-button-bg-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-bg-color-group]',
+				'default'           => astra_get_option( 'dmfa-dark-button-bg-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Normal', 'dark-mode-for-astra' ),
+				'priority'          => 71,
+			],
+			/**
+			 * Option: Button Background Hover Color
+			 */
+			[
+				'name'              => 'dmfa-dark-button-bg-h-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-bg-color-group]',
+				'default'           => astra_get_option( 'dmfa-dark-button-bg-h-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Hover', 'dark-mode-for-astra' ),
+				'priority'          => 71,
+			],
+
+			/**
+			 * Group: Dark Mode Button Border Group
+			 */
+			[
+				'name'      => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-border-color-group]',
+				'default'   => astra_get_option( 'dmfa-dark-color-button-border-color-group' ),
+				'type'      => 'control',
+				'control'   => 'ast-color-group',
+				'title'     => __( 'Border Color', 'dark-mode-for-astra' ),
+				'section'   => 'section-dark-mode-for-astra-buttons',
+				'transport' => 'postMessage',
+				'priority'  => 80,
+				'divider'   => [ 'ast_class' => 'ast-bottom-dotted-divider' ],
+			],
+			/**
+			 * Option: Global Button Border Color
+			 */
+			[
+				'name'              => 'dmfa-dark-color-button-border-group-border-color',
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-border-color-group]',
+				'default'           => astra_get_option( 'dmfa-dark-color-button-border-group-border-color' ),
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Normal', 'dark-mode-for-astra' ),
+				'priority'          => 81,
+			],
+			/**
+			 * Option: Global Button Border Hover Color
+			 */
+			[
+				'name'              => 'dmfa-dark-color-button-border-group-border-h-color',
+				'default'           => astra_get_option( 'dmfa-dark-color-button-border-group-border-h-color' ),
+				'parent'            => ASTRA_THEME_SETTINGS . '[dmfa-dark-color-button-border-color-group]',
+				'transport'         => 'postMessage',
+				'type'              => 'sub-control',
+				'section'           => 'section-dark-mode-for-astra-buttons',
+				'control'           => 'ast-color',
+				'sanitize_callback' => [ 'Astra_Customizer_Sanitizes', 'sanitize_alpha_color' ],
+				'title'             => __( 'Hover', 'dark-mode-for-astra' ),
+				'priority'          => 81,
+			],
 		];
 
 		$configurations = array_merge( $configurations, $_configs );

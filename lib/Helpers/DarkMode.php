@@ -55,8 +55,8 @@ class DarkMode {
 		echo '</button>';
 		?>
 		<style>
-			#dark-mode-toggler > span {
-				margin- <?php echo is_rtl() ? 'right' : 'left'; ?>: 5px;
+			#dark-mode-toggler > span::before {
+				<?php echo is_rtl() ? 'margin-right' : 'margin-left'; ?>: 5px;
 			}
 
 			#dark-mode-toggler > span::before {
@@ -142,68 +142,73 @@ class DarkMode {
 	 */
 	public function astra_color_palettes() {
 		$color_palettes           = get_option( 'astra-color-palettes' );
-		$astra_settings           = get_option( 'astra-settings' );
 		$light_mode_color_palette = $color_palettes['currentPalette'];
 		$dark_mode_color_palette  = astra_get_option( 'dmfa-dark-mode-color-scheme', 'palette_2' );
 
-		$light_color_text              = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $light_mode_color_palette ],
-			$astra_settings['button-color']
-		);
-		$light_color_background        = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $light_mode_color_palette ],
-			$astra_settings['button-bg-color']
-		);
-		$light_color_border            = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $light_mode_color_palette ],
-			$astra_settings['theme-button-border-group-border-color']
-		);
-		$light_color_text_active       = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $light_mode_color_palette ],
-			$astra_settings['button-h-color']
-		);
-		$light_color_background_active = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $light_mode_color_palette ],
-			$astra_settings['button-bg-h-color']
-		);
-		$light_color_border_active     = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $light_mode_color_palette ],
-			$astra_settings['theme-button-border-group-border-h-color']
-		);
-
-		$dark_color_text              = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $dark_mode_color_palette ],
-			$astra_settings['button-color']
-		);
-		$dark_color_background        = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $dark_mode_color_palette ],
-			$astra_settings['button-bg-color']
-		);
-		$dark_color_border            = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $dark_mode_color_palette ],
-			$astra_settings['theme-button-border-group-border-color']
-		);
-		$dark_color_text_active       = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $dark_mode_color_palette ],
-			$astra_settings['button-h-color']
-		);
-		$dark_color_background_active = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $dark_mode_color_palette ],
-			$astra_settings['button-bg-h-color']
-		);
-		$dark_color_border_active     = $this->get_color_from_settings(
-			$color_palettes['palettes'][ $dark_mode_color_palette ],
-			$astra_settings['theme-button-border-group-border-h-color']
-		);
+		$light_button_colors = [
+			'button-text-color'              => astra_get_option(
+				'dmfa-light-button-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][4]
+			),
+			'button-text-color-active'       => astra_get_option(
+				'dmfa-light-button-h-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][4]
+			),
+			'button-background-color'        => astra_get_option(
+				'dmfa-light-button-bg-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][0]
+			),
+			'button-background-color-active' => astra_get_option(
+				'dmfa-light-button-bg-h-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][1]
+			),
+			'button-border-color'            => astra_get_option(
+				'dmfa-light-color-button-border-group-border-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][0]
+			),
+			'button-border-color-active'     => astra_get_option(
+				'dmfa-light-color-button-border-group-border-h-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][1]
+			),
+		];
+		$dark_button_colors  = [
+			'button-text-color'              => astra_get_option(
+				'dmfa-dark-button-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][4]
+			),
+			'button-text-color-active'       => astra_get_option(
+				'dmfa-dark-button-h-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][4]
+			),
+			'button-background-color'        => astra_get_option(
+				'dmfa-dark-button-bg-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][0]
+			),
+			'button-background-color-active' => astra_get_option(
+				'dmfa-dark-button-bg-h-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][1]
+			),
+			'button-border-color'            => astra_get_option(
+				'dmfa-dark-color-button-border-group-border-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][0]
+			),
+			'button-border-color-active'     => astra_get_option(
+				'dmfa-dark-color-button-border-group-border-h-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][1]
+			),
+		];
 		?>
 		<style>
 			html:not(.is-dark-theme) {
-				--ast-dark-mode--button-text-color: <?php echo esc_attr( $light_color_text ); ?>;
-				--ast-dark-mode--button-border-color: <?php echo esc_attr( $light_color_background ); ?>;
-				--ast-dark-mode--button-background-color: <?php echo esc_attr( $light_color_border ); ?>;
-				--ast-dark-mode--button-text-color-active: <?php echo esc_attr( $light_color_text_active ); ?>;
-				--ast-dark-mode--button-border-color-active: <?php echo esc_attr( $light_color_background_active ); ?>;
-				--ast-dark-mode--button-background-color-active: <?php echo esc_attr( $light_color_border_active ); ?>;
+			<?php
+			foreach ( $light_button_colors as $key => $value ) {
+				printf(
+					'--ast-dark-mode--%s: %s;',
+					esc_attr( $key ),
+					esc_attr( $value )
+				);
+			}
+			?>
 			}
 
 			html.is-dark-theme {
@@ -215,34 +220,17 @@ class DarkMode {
 					esc_attr( $value )
 				);
 			}
+			foreach ( $dark_button_colors as $key => $value ) {
+				printf(
+					'--ast-dark-mode--%s: %s;',
+					esc_attr( $key ),
+					esc_attr( $value )
+				);
+			}
 			?>
-			--ast-dark-mode--button-text-color: <?php echo esc_attr( $dark_color_text ); ?>;
-				--ast-dark-mode--button-border-color: <?php echo esc_attr( $dark_color_background ); ?>;
-				--ast-dark-mode--button-background-color: <?php echo esc_attr( $dark_color_border ); ?>;
-				--ast-dark-mode--button-text-color-active: <?php echo esc_attr( $dark_color_text_active ); ?>;
-				--ast-dark-mode--button-border-color-active: <?php echo esc_attr( $dark_color_background_active ); ?>;
-				--ast-dark-mode--button-background-color-active: <?php echo esc_attr( $dark_color_border_active ); ?>;
 			}
 		</style>
 		<?php
-	}
-
-	/**
-	 * Find a setting's value in the color palette.
-	 *
-	 * @param array  $color_palette The color palette array.
-	 * @param string $setting The setting to find in the color palette.
-	 *
-	 * @return mixed
-	 */
-	public function get_color_from_settings( $color_palette, $setting ) {
-		// Check, if the color is using a global variable.
-		preg_match( '/var\(--ast-global-color-(\d+)\)/', $setting, $matches );
-		if ( isset( $matches[1] ) ) {
-			return $color_palette[ $matches[1] ];
-		} else {
-			return $setting;
-		}
 	}
 
 	/**

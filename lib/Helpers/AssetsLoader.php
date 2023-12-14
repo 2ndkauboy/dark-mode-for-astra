@@ -20,6 +20,7 @@ class AssetsLoader {
 		add_action( 'init', [ $this, 'register_assets' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ], 11 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 11 );
+		add_action( 'customize_preview_init', [ $this, 'customize_scripts' ], 11 );
 		add_action( 'wp_footer', [ $this, 'include_svg_icons' ], 9999 );
 		add_action( 'admin_footer', [ $this, 'include_svg_icons' ], 9999 );
 	}
@@ -67,6 +68,34 @@ class AssetsLoader {
 		}
 
 		wp_set_script_translations( 'dmfa-editor', 'dmfa', plugin_dir_path( DMFA_FILE ) . 'languages' );
+	}
+
+	/**
+	 * Register the assets for the Customizer.
+	 */
+	public function customize_scripts() {
+		$customizer_assets_path  = 'build/customizer.asset.php';
+		$customizer_scripts_path = 'build/customizer.js';
+
+		if ( file_exists( DMFA_PATH . $customizer_assets_path ) ) {
+			$customizer_asset = require DMFA_PATH . $customizer_assets_path;
+		} else {
+			$customizer_asset = [
+				'dependencies' => [],
+				'version'      => DMFA_VERSION,
+			];
+		}
+
+		// Register optional customizer only JS file.
+		if ( file_exists( DMFA_PATH . $customizer_scripts_path ) ) {
+			wp_enqueue_script(
+				'dmfa-customizer',
+				DMFA_URL . $customizer_scripts_path,
+				$customizer_asset['dependencies'],
+				$customizer_asset['version'],
+				true
+			);
+		}
 	}
 
 	/**
