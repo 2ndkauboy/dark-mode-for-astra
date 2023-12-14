@@ -10,7 +10,7 @@
  * Plugin Name: Dark Mode for Astra
  * Plugin URI: https://github.com/2ndkauboy/dark-mode-for-astra
  * Description: A plugin to add a dark mode toggle to the frontend using one of the color schemes defined in the customizer.
- * Version: 1.0.0-alpha-5
+ * Version: 1.0.0-alpha-7
  * Author: Bernhard Kau
  * Author URI: https://kau-boys.de
  * Text Domain: dark-mode-for-astra
@@ -19,7 +19,7 @@
  * GitHub Plugin URI: https://github.com/2ndkauboy/dark-mode-for-astra
  */
 
-define( 'DMFA_VERSION', '1.0.0-alpha-5' );
+define( 'DMFA_VERSION', '1.0.0-alpha-7' );
 define( 'DMFA_FILE', __FILE__ );
 define( 'DMFA_PATH', plugin_dir_path( DMFA_FILE ) );
 define( 'DMFA_URL', plugin_dir_url( DMFA_FILE ) );
