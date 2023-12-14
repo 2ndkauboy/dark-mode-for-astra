@@ -141,16 +141,10 @@ class DarkMode {
 	 * Print the CSS for the Astra color palette to be used for the dark mode.
 	 */
 	public function astra_color_palettes() {
-		$color_palettes = get_option( 'astra-color-palettes' );
-		$astra_settings = get_option( 'astra-settings' );
-
-		/**
-		 * Filters for the color palette to be used for the dark mode.
-		 *
-		 * @param string $color_palette The option's index key of the color palette to be used. Default: 'palette_2'.
-		 */
-		$light_mode_color_palette = apply_filters( 'dmfa_color_palett', 'palette_1' );
-		$dark_mode_color_palette  = apply_filters( 'dmfa_color_palett', 'palette_2' );
+		$color_palettes           = get_option( 'astra-color-palettes' );
+		$astra_settings           = get_option( 'astra-settings' );
+		$light_mode_color_palette = $color_palettes['currentPalette'];
+		$dark_mode_color_palette  = astra_get_option( 'dmfa-dark-mode-color-scheme', 'palette_2' );
 
 		$light_color_text              = $this->get_color_from_settings(
 			$color_palettes['palettes'][ $light_mode_color_palette ],

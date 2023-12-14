@@ -7,6 +7,7 @@
 
 namespace DMFA;
 
+use DMFA\Customizer\Configurations\DarkMode as DarkModeConfig;
 use DMFA\Customizer\Configurations\SiteIcon;
 use DMFA\Helpers\AssetsLoader;
 use DMFA\Helpers\DarkMode;
@@ -17,9 +18,10 @@ use DMFA\Helpers\DarkMode;
 function init() {
 	// Construct all modules to initialize.
 	$modules = [
+		'customizer_config_dark_mode' => new DarkModeConfig(),
+		'customizer_config_site_icon' => new SiteIcon(),
 		'helpers_assets_loader'       => new AssetsLoader(),
 		'helpers_dark_mode'           => new DarkMode(),
-		'customizer_config_site_icon' => new SiteIcon(),
 	];
 
 	// Initialize all modules.
