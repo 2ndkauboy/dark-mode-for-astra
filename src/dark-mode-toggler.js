@@ -9,11 +9,20 @@ function astraToggleDarkMode() { // jshint ignore:line
 		window.localStorage.setItem( 'astraDarkMode', 'yes' );
 		if ( siteIcon.dataset.darkModeSrc ) {
 			siteIcon.dataset.lightModeSrc = siteIcon.src;
-			siteIcon.dataset.lightModeSrcset = siteIcon.srcset;
-			siteIcon.dataset.lightModeSizes = siteIcon.srcset;
+			if(siteIcon.srcset) {
+				siteIcon.dataset.lightModeSrcset = siteIcon.srcset;
+			}
+			if(siteIcon.sizes) {
+				siteIcon.dataset.lightModeSizes = siteIcon.sizes;
+			}
+
 			siteIcon.src = siteIcon.dataset.darkModeSrc;
-			siteIcon.srcset = siteIcon.dataset.darkModeSrcset;
-			siteIcon.sizes = siteIcon.dataset.darkModeSizes;
+			if ( siteIcon.dataset.darkModeSrcset ) {
+				siteIcon.srcset = siteIcon.dataset.darkModeSrcset;
+			}
+			if ( siteIcon.dataset.darkModeSizes ) {
+				siteIcon.sizes = siteIcon.dataset.darkModeSizes;
+			}
 		}
 	} else {
 		toggler.setAttribute( 'aria-pressed', 'false' );
@@ -22,11 +31,20 @@ function astraToggleDarkMode() { // jshint ignore:line
 		window.localStorage.setItem( 'astraDarkMode', 'no' );
 		if ( siteIcon.dataset.lightModeSrc ) {
 			siteIcon.dataset.darkModeSrc = siteIcon.src;
-			siteIcon.dataset.darkModeSrcset = siteIcon.srcset;
-			siteIcon.dataset.darkModeSizes = siteIcon.srcset;
+			if(siteIcon.srcset) {
+				siteIcon.dataset.darkModeSrcset = siteIcon.srcset;
+			}
+			if(siteIcon.sizes) {
+				siteIcon.dataset.darkModeSizes = siteIcon.sizes;
+			}
+
 			siteIcon.src = siteIcon.dataset.lightModeSrc;
-			siteIcon.srcset = siteIcon.dataset.lightModeSrcset;
-			siteIcon.sizes = siteIcon.dataset.lightModeSizes;
+			if ( siteIcon.dataset.lightModeSrcset ) {
+				siteIcon.srcset = siteIcon.dataset.lightModeSrcset;
+			}
+			if ( siteIcon.dataset.lightModeSizes ) {
+				siteIcon.sizes = siteIcon.dataset.lightModeSizes;
+			}
 		}
 	}
 }
@@ -47,7 +65,7 @@ function darkModeInitialLoad() {
 	var toggler = document.getElementById( 'dark-mode-toggler' ),
 		isDarkMode = astraIsDarkMode();
 
-	if ( isDarkMode && ! document.documentElement.classList.contains('is-dark-theme') ) {
+	if ( isDarkMode && !document.documentElement.classList.contains( 'is-dark-theme' ) ) {
 		astraToggleDarkMode();
 	}
 
