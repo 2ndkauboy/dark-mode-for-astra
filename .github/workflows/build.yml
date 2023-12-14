@@ -49,4 +49,4 @@ jobs:
           files: ${{ env.ZIP_FILE }}
           append_body: true
           body: |
-            **Plugin ZIP:** [${{ env.ZIP_FILE }}](https://github.com/2ndkauboy/${{ github.event.repository.name }}/releases/download/${{ github.ref_name }}/${{ env.ZIP_FILE }}).
+            **Plugin ZIP:** [`${{ env.ZIP_FILE }}`](https://github.com/2ndkauboy/${{ github.event.repository.name }}/releases/download/${{ github.ref_name }}/${{ env.ZIP_FILE }})
