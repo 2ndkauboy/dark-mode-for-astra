@@ -1,16 +1,33 @@
 function astraToggleDarkMode() { // jshint ignore:line
-	var toggler = document.getElementById( 'dark-mode-toggler' );
+	var toggler = document.getElementById( 'dark-mode-toggler' ),
+		siteIcon = document.querySelector( '.site-logo-img img' );
 
 	if ( 'false' === toggler.getAttribute( 'aria-pressed' ) ) {
 		toggler.setAttribute( 'aria-pressed', 'true' );
 		document.documentElement.classList.add( 'is-dark-theme' );
 		document.body.classList.add( 'is-dark-theme' );
 		window.localStorage.setItem( 'astraDarkMode', 'yes' );
+		if ( siteIcon.dataset.darkModeSrc ) {
+			siteIcon.dataset.lightModeSrc = siteIcon.src;
+			siteIcon.dataset.lightModeSrcset = siteIcon.srcset;
+			siteIcon.dataset.lightModeSizes = siteIcon.srcset;
+			siteIcon.src = siteIcon.dataset.darkModeSrc;
+			siteIcon.srcset = siteIcon.dataset.darkModeSrcset;
+			siteIcon.sizes = siteIcon.dataset.darkModeSizes;
+		}
 	} else {
 		toggler.setAttribute( 'aria-pressed', 'false' );
 		document.documentElement.classList.remove( 'is-dark-theme' );
 		document.body.classList.remove( 'is-dark-theme' );
 		window.localStorage.setItem( 'astraDarkMode', 'no' );
+		if ( siteIcon.dataset.lightModeSrc ) {
+			siteIcon.dataset.darkModeSrc = siteIcon.src;
+			siteIcon.dataset.darkModeSrcset = siteIcon.srcset;
+			siteIcon.dataset.darkModeSizes = siteIcon.srcset;
+			siteIcon.src = siteIcon.dataset.lightModeSrc;
+			siteIcon.srcset = siteIcon.dataset.lightModeSrcset;
+			siteIcon.sizes = siteIcon.dataset.lightModeSizes;
+		}
 	}
 }
 
@@ -30,16 +47,8 @@ function darkModeInitialLoad() {
 	var toggler = document.getElementById( 'dark-mode-toggler' ),
 		isDarkMode = astraIsDarkMode();
 
-	if ( isDarkMode ) {
-		document.documentElement.classList.add( 'is-dark-theme' );
-		document.body.classList.add( 'is-dark-theme' );
-	} else {
-		document.documentElement.classList.remove( 'is-dark-theme' );
-		document.body.classList.remove( 'is-dark-theme' );
-	}
-
-	if ( toggler && isDarkMode ) {
-		toggler.setAttribute( 'aria-pressed', 'true' );
+	if ( isDarkMode && ! document.documentElement.classList.contains('is-dark-theme') ) {
+		astraToggleDarkMode();
 	}
 
 	if ( 'fixed' === window.getComputedStyle( toggler ).position ) {
@@ -50,7 +59,6 @@ function darkModeInitialLoad() {
 }
 
 function darkModeRepositionTogglerOnScroll() {
-
 	var toggler = document.getElementById( 'dark-mode-toggler' ),
 		prevScroll = window.scrollY || document.documentElement.scrollTop,
 		currentScroll,
