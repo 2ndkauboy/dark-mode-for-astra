@@ -13,6 +13,7 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		frontend: path.resolve( process.cwd(), 'src', 'frontend.js' ),
+		customizer: path.resolve( process.cwd(), 'src', 'customizer.js' ),
 	},
 	module: {
 		rules: [
