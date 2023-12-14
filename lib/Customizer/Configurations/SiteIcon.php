@@ -34,12 +34,12 @@ class SiteIcon {
 		$_section = 'title_tagline';
 		$_configs = [
 			[
-				'name'      => ASTRA_THEME_SETTINGS . '[different-dark-mode-logo]',
+				'name'      => ASTRA_THEME_SETTINGS . '[dmfa-different-dark-mode-logo]',
 				'type'      => 'control',
 				'control'   => 'ast-toggle-control',
 				'section'   => $_section,
 				'title'     => __( 'Different Logo For Dark Mode?', 'dark-mode-for-astra' ),
-				'default'   => astra_get_option( 'different-dark-mode-logo' ),
+				'default'   => astra_get_option( 'dmfa-different-dark-mode-logo' ),
 				'priority'  => 4,
 				'transport' => 'postMessage',
 				'divider'   => [ 'ast_class' => 'ast-top-dotted-divider' ],
@@ -59,18 +59,18 @@ class SiteIcon {
 			],
 
 			/**
-			 * Option: Retina logo selector
+			 * Option: Dark Mode logo selector
 			 */
 			[
-				'name'              => ASTRA_THEME_SETTINGS . '[ast-header-dark-mode-logo]',
-				'default'           => astra_get_option( 'ast-header-dark-mode-logo' ),
+				'name'              => ASTRA_THEME_SETTINGS . '[ast-header-dmfa-dark-mode-logo]',
+				'default'           => astra_get_option( 'ast-header-dmfa-dark-mode-logo' ),
 				'type'              => 'control',
 				'control'           => 'image',
 				'sanitize_callback' => 'esc_url_raw',
 				'section'           => 'title_tagline',
 				'context'           => [
 					[
-						'setting'  => ASTRA_THEME_SETTINGS . '[different-dark-mode-logo]',
+						'setting'  => ASTRA_THEME_SETTINGS . '[dmfa-different-dark-mode-logo]',
 						'operator' => '!=',
 						'value'    => 0,
 					],
@@ -101,9 +101,9 @@ class SiteIcon {
 	 * @return array
 	 */
 	public function dark_mode_image_attribute( $attr ) {
-		$diff_dark_mode_logo = astra_get_option( 'different-dark-mode-logo' );
+		$diff_dark_mode_logo = astra_get_option( 'dmfa-different-dark-mode-logo' );
 		if ( $diff_dark_mode_logo ) {
-			$dark_mode_logo = astra_get_option( 'ast-header-dark-mode-logo' );
+			$dark_mode_logo = astra_get_option( 'ast-header-dmfa-dark-mode-logo' );
 			if ( apply_filters( 'dmfa_astra_main_header_dark_mode', true ) && '' !== $dark_mode_logo ) {
 				$attr['data-dark-mode-src'] = $dark_mode_logo;
 				// Generate "srcset" and "sizes" attributes for the dark mode logo.
