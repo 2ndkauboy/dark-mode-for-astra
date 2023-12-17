@@ -34,7 +34,7 @@ class DarkMode {
 		$attrs = shortcode_atts(
 			[
 				'id'           => 'dark-mode-toggler',
-				'class'        => '',
+				'class'        => 'dark-mode-toggler',
 				'aria-pressed' => 'false',
 			],
 			$attrs
@@ -55,15 +55,15 @@ class DarkMode {
 		echo '</button>';
 		?>
 		<style>
-			#dark-mode-toggler > span::before {
+			.dark-mode-toggler > span::before {
 				<?php echo is_rtl() ? 'margin-right' : 'margin-left'; ?>: 5px;
 			}
 
-			#dark-mode-toggler > span::before {
+			.dark-mode-toggler > span::before {
 				content: '<?php esc_attr_e( 'Off', 'dark-mode-for-astra' ); ?>';
 			}
 
-			#dark-mode-toggler[aria-pressed="true"] > span::before {
+			.dark-mode-toggler[aria-pressed="true"] > span::before {
 				content: '<?php esc_attr_e( 'On', 'dark-mode-for-astra' ); ?>';
 			}
 
@@ -77,7 +77,7 @@ class DarkMode {
 			}
 
 			@media only screen and (max-width: 782px) {
-				#dark-mode-toggler {
+				.dark-mode-toggler {
 					margin-top: 32px;
 				}
 			}
@@ -101,7 +101,7 @@ class DarkMode {
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $this->the_html( [ 'class' => 'fixed-bottom' ] );
+		echo $this->the_html( [ 'class' => 'dark-mode-toggler fixed-bottom' ] );
 	}
 
 	/**
