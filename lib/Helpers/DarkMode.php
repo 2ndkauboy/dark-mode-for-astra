@@ -16,11 +16,25 @@ class DarkMode {
 	 * Initialize the class and register all hooks.
 	 */
 	public function init() {
-		// Add the switch on the frontend.
 		add_action( 'admin_init', [ $this, 'add_privacy_policy_content' ] );
-		add_action( 'wp_footer', [ $this, 'maybe_inject_fixed_button' ] );
 		add_action( 'wp_footer', [ $this, 'astra_color_palettes' ] );
-		add_shortcode( 'dark-mode-for-astra-toggle', [ $this, 'the_html' ] );
+		add_action( 'dmfa_render_toggle', [ $this, 'render_button' ] );
+		add_shortcode( 'dark-mode-for-astra-toggle', [ $this, 'button_shortcode' ] );
+	}
+
+	/**
+	 * Print the button in a shortcode.
+	 *
+	 * @param array $attrs The shortcode attributes.
+	 *
+	 * @return string
+	 */
+	public function button_shortcode( $attrs = [] ) {
+		ob_start();
+
+		do_action( 'dmfa_render_toggle', $attrs );
+
+		return ob_get_clean();
 	}
 
 	/**
@@ -30,7 +44,7 @@ class DarkMode {
 	 *
 	 * @param array $attrs The attributes to add to our <button> element.
 	 */
-	public function the_html( $attrs = [] ) {
+	public function render_button( $attrs = [] ) {
 		$attrs = shortcode_atts(
 			[
 				'id'           => 'dark-mode-toggler',
@@ -40,7 +54,9 @@ class DarkMode {
 			$attrs
 		);
 
-		ob_start();
+		if ( astra_get_option( 'dmfa-fixed-to-bottom' ) ) {
+			$attrs['class'] .= ' fixed-bottom';
+		}
 
 		echo '<button';
 		foreach ( $attrs as $key => $val ) {
@@ -56,7 +72,7 @@ class DarkMode {
 		?>
 		<style>
 			.dark-mode-toggler > span::before {
-				<?php echo is_rtl() ? 'margin-right' : 'margin-left'; ?>: 5px;
+			<?php echo is_rtl() ? 'margin-right: 5px' : 'margin-left: 5px'; ?>;
 			}
 
 			.dark-mode-toggler > span::before {
@@ -68,11 +84,11 @@ class DarkMode {
 			}
 
 			<?php if ( is_admin() || wp_is_json_request() ) : ?>
-			.components-editor-notices__pinned ~ .edit-post-visual-editor #dark-mode-toggler {
+			.components-editor-notices__pinned ~ .edit-post-visual-editor .dark-mode-toggler {
 				z-index: 20;
 			}
 
-			.is-dark-theme.is-dark-theme #dark-mode-toggler:not(:hover):not(:focus) {
+			.is-dark-theme.is-dark-theme .dark-mode-toggler:not(:hover):not(:focus) {
 				color: var(--global--color-primary);
 			}
 
@@ -86,55 +102,6 @@ class DarkMode {
 		</style>
 
 		<?php
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * When the shortcode is not used in any sidebar, inject the button as a fixed button in the `wp_footer`.
-	 *
-	 * @return void
-	 */
-	public function maybe_inject_fixed_button() {
-		if ( $this->is_using_shortcode_in_sidebar() ) {
-			return;
-		}
-
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $this->the_html( [ 'class' => 'dark-mode-toggler fixed-bottom' ] );
-	}
-
-	/**
-	 * A helper function that tries to find the shortcode in all widgets in all sidebars.
-	 *
-	 * @return bool
-	 */
-	private function is_using_shortcode_in_sidebar() {
-		// Get the sidebar widgets.
-		$sidebar_widgets = wp_get_sidebars_widgets();
-
-		// Loop through all sidebars.
-		foreach ( $sidebar_widgets as $sidebar_widget ) {
-			// Loop through each widget in the current sidebar.
-			foreach ( $sidebar_widget as $widget_id ) {
-				// Get the widget instance.
-				$widget_base_pair = wp_parse_widget_id( $widget_id );
-				$widget_instance  = get_option( 'widget_' . $widget_base_pair['id_base'] );
-
-				// Check if the widget instance exists.
-				if ( false !== $widget_instance ) {
-					// Access the content property of the widget instance.
-					$widget_content = isset( $widget_instance['_multiwidget'] ) ? $widget_instance[ $widget_base_pair['number'] ]['content'] : '';
-
-					// Check if the shortcode is used in the widget text.
-					if ( has_shortcode( $widget_content, 'dark-mode-for-astra-toggle' ) ) {
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
 	}
 
 	/**

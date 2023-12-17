@@ -113,7 +113,7 @@ class SiteIcon {
 				if ( $image ) {
 					list( $src, $width, $height ) = $image;
 					if ( is_array( $image_meta ) ) {
-						$size_array = array( absint( $width ), absint( $height ) );
+						$size_array = [ absint( $width ), absint( $height ) ];
 						$srcset     = wp_calculate_image_srcset( $size_array, $src, $image_meta, $dark_mode_logo_id );
 						$sizes      = wp_calculate_image_sizes( $size_array, $src, $image_meta, $dark_mode_logo_id );
 						if ( $srcset && $sizes ) {
