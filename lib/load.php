@@ -16,14 +16,6 @@ use DMFA\Helpers\DarkMode;
  * Init function of the plugin
  */
 function init() {
-	// Check, if Astra is not active.
-	if ( ! function_exists( 'astra_get_option' ) ) {
-		add_action( 'admin_notices', 'dmfa_astra_missing' );
-
-		// Stop the further processing of the plugin.
-		return;
-	}
-
 	// Construct all modules to initialize.
 	$modules = [
 		'customizer_config_dark_mode' => new DarkModeConfig(),
@@ -40,4 +32,4 @@ function init() {
 	}
 }
 
-add_action( 'after_setup_theme', 'DMFA\init' );
+add_action( 'plugins_loaded', 'DMFA\init' );
