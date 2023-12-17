@@ -42,14 +42,6 @@ function dmfa_pre_init() {
 		return;
 	}
 
-	// Check, if Astra is not active.
-	if ( ! function_exists( 'astra_get_option' ) ) {
-		add_action( 'admin_notices', 'dmfa_astra_missing' );
-
-		// Stop the further processing of the plugin.
-		return;
-	}
-
 	if ( file_exists( DMFA_PATH . 'composer.json' ) && ! file_exists( DMFA_PATH . 'vendor/autoload.php' ) ) {
 		add_action( 'admin_notices', 'dmfa_autoloader_missing' );
 
@@ -97,6 +89,6 @@ function dmfa_autoloader_missing() {
  */
 function dmfa_astra_missing() {
 	echo '<div class="error"><p>';
-	esc_html_e( 'Dark Mode for Astra is missing the Composer autoloader file. Please run `composer install --no-dev -o` in the root folder of the plugin or use a release version including the `vendor` folder.', 'dark-mode-for-astra' );
+	esc_html_e( 'Dark Mode for Astra only works with the Astra theme activated.', 'dark-mode-for-astra' );
 	echo '</p></div>';
 }
