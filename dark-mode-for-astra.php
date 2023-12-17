@@ -28,7 +28,7 @@ define( 'DMFA_URL', plugin_dir_url( DMFA_FILE ) );
 dmfa_pre_init();
 
 /**
- * Pre init function to check the plugins compatibility.
+ * Pre init function to check the plugin's compatibility.
  */
 function dmfa_pre_init() {
 	// Load the translation, as they might be needed in pre_init.
@@ -37,6 +37,14 @@ function dmfa_pre_init() {
 	// Check, if the min. required PHP version is available and if not, show an admin notice.
 	if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 		add_action( 'admin_notices', 'dmfa_min_php_version_error' );
+
+		// Stop the further processing of the plugin.
+		return;
+	}
+
+	// Check, if Astra is not active.
+	if ( ! function_exists( 'astra_get_option' ) ) {
+		add_action( 'admin_notices', 'dmfa_astra_missing' );
 
 		// Stop the further processing of the plugin.
 		return;
@@ -67,7 +75,7 @@ function dmfa_load_textdomain() {
 }
 
 /**
- * Show a admin notice error message, if the PHP version is too low
+ * Show an admin notice error message, if the PHP version is too low.
  */
 function dmfa_min_php_version_error() {
 	echo '<div class="error"><p>';
@@ -76,9 +84,18 @@ function dmfa_min_php_version_error() {
 }
 
 /**
- * Show a admin notice error message, if the PHP version is too low
+ * Show an admin notice error message, if the `vendor` folder is missing.
  */
 function dmfa_autoloader_missing() {
+	echo '<div class="error"><p>';
+	esc_html_e( 'Dark Mode for Astra is missing the Composer autoloader file. Please run `composer install --no-dev -o` in the root folder of the plugin or use a release version including the `vendor` folder.', 'dark-mode-for-astra' );
+	echo '</p></div>';
+}
+
+/**
+ * Show an admin notice error message, if Astra is not active.
+ */
+function dmfa_astra_missing() {
 	echo '<div class="error"><p>';
 	esc_html_e( 'Dark Mode for Astra is missing the Composer autoloader file. Please run `composer install --no-dev -o` in the root folder of the plugin or use a release version including the `vendor` folder.', 'dark-mode-for-astra' );
 	echo '</p></div>';
