@@ -98,8 +98,18 @@ function dmfa_autoloader_missing() {
 function dmfa_astra_missing() {
 	echo '<div class="error"><p>';
 	printf(
-	/* translators: %s - Astra theme install URL. */
-		esc_html__( 'Dark Mode for Astra requires <strong>Astra</strong> to be your active theme. <a href="%s">Install and activate now.</a>', 'dark-mode-for-astra' ),
+		wp_kses(
+		/* translators: %s - Astra theme install URL. */
+			__( 'Dark Mode for Astra requires <strong>Astra</strong> to be your active theme. <a href="%s">Install and activate now.</a>', 'dark-mode-for-astra' ),
+			array(
+				'a'      => array(
+					'href'   => array(),
+					'target' => array(),
+					'rel'    => array(),
+				),
+				'strong' => array(),
+			)
+		),
 		esc_url( self_admin_url( 'theme-install.php?theme=astra' ) )
 	);
 	echo '</p></div>';
