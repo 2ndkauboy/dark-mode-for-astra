@@ -42,6 +42,14 @@ function dmfa_pre_init() {
 		return;
 	}
 
+	// Check, if Astra is not active.
+	if ( 'astra' !== get_template() ) {
+		add_action( 'admin_notices', 'dmfa_astra_missing' );
+
+		// Stop the further processing of the plugin.
+		return;
+	}
+
 	if ( file_exists( DMFA_PATH . 'composer.json' ) && ! file_exists( DMFA_PATH . 'vendor/autoload.php' ) ) {
 		add_action( 'admin_notices', 'dmfa_autoloader_missing' );
 
@@ -89,6 +97,10 @@ function dmfa_autoloader_missing() {
  */
 function dmfa_astra_missing() {
 	echo '<div class="error"><p>';
-	esc_html_e( 'Dark Mode for Astra only works with the Astra theme activated.', 'dark-mode-for-astra' );
+	printf(
+	/* translators: %s - Astra theme install URL. */
+		__( 'Dark Mode for Astra requires <strong>Astra</strong> to be your active theme. <a href="%s">Install and activate now.</a>', 'dark-mode-for-astra' ),
+		esc_url( self_admin_url( 'theme-install.php?theme=astra' ) )
+	);
 	echo '</p></div>';
 }
