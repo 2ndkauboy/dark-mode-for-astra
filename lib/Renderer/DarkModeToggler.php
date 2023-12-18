@@ -1,25 +1,130 @@
 <?php
-/**
- * Dark Mode Class
- *
- * @package DMFA\Helpers
- */
 
-namespace DMFA\Helpers;
+namespace DMFA\Renderer;
 
 /**
- * This class is in charge of Dark Mode.
+ * Class SiteIcon
  */
-class DarkMode {
-
-	/**
-	 * Initialize the class and register all hooks.
-	 */
+class DarkModeToggler {
 	public function init() {
-		add_action( 'admin_init', [ $this, 'add_privacy_policy_content' ] );
 		add_action( 'wp_footer', [ $this, 'astra_color_palettes' ] );
+		add_action( 'astra_render_header_components', [ $this, 'render_header_components' ] );
 		add_action( 'dmfa_render_toggle', [ $this, 'render_button' ] );
 		add_shortcode( 'dark-mode-for-astra-toggle', [ $this, 'button_shortcode' ] );
+	}
+
+	/**
+	 * Print the CSS for the Astra color palette to be used for the dark mode.
+	 */
+	public function astra_color_palettes() {
+		$color_palettes           = get_option( 'astra-color-palettes' );
+		$light_mode_color_palette = $color_palettes['currentPalette'];
+		$dark_mode_color_palette  = astra_get_option( 'dmfa-dark-mode-color-scheme', 'palette_2' );
+
+		$light_button_colors = [
+			'button-text-color'              => astra_get_option(
+				'dmfa-light-button-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][4]
+			),
+			'button-text-color-active'       => astra_get_option(
+				'dmfa-light-button-h-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][4]
+			),
+			'button-background-color'        => astra_get_option(
+				'dmfa-light-button-bg-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][0]
+			),
+			'button-background-color-active' => astra_get_option(
+				'dmfa-light-button-bg-h-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][1]
+			),
+			'button-border-color'            => astra_get_option(
+				'dmfa-light-color-button-border-group-border-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][0]
+			),
+			'button-border-color-active'     => astra_get_option(
+				'dmfa-light-color-button-border-group-border-h-color',
+				$color_palettes['palettes'][ $dark_mode_color_palette ][1]
+			),
+		];
+		$dark_button_colors  = [
+			'button-text-color'              => astra_get_option(
+				'dmfa-dark-button-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][4]
+			),
+			'button-text-color-active'       => astra_get_option(
+				'dmfa-dark-button-h-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][4]
+			),
+			'button-background-color'        => astra_get_option(
+				'dmfa-dark-button-bg-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][0]
+			),
+			'button-background-color-active' => astra_get_option(
+				'dmfa-dark-button-bg-h-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][1]
+			),
+			'button-border-color'            => astra_get_option(
+				'dmfa-dark-color-button-border-group-border-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][0]
+			),
+			'button-border-color-active'     => astra_get_option(
+				'dmfa-dark-color-button-border-group-border-h-color',
+				$color_palettes['palettes'][ $light_mode_color_palette ][1]
+			),
+		];
+		?>
+		<style>
+			html:not(.is-dark-theme) {
+			<?php
+				foreach ( $light_button_colors as $key => $value ) {
+					printf(
+						'--ast-dark-mode--%s: %s;',
+						esc_attr( $key ),
+						esc_attr( $value )
+					);
+				}
+				?>
+			}
+
+			html.is-dark-theme {
+			<?php
+			foreach ( $color_palettes['palettes'][ $dark_mode_color_palette ] as $key => $value ) {
+				printf(
+					'--ast-global-color-%d: %s;',
+					(int) $key,
+					esc_attr( $value )
+				);
+			}
+			foreach ( $dark_button_colors as $key => $value ) {
+				printf(
+					'--ast-dark-mode--%s: %s;',
+					esc_attr( $key ),
+					esc_attr( $value )
+				);
+			}
+			?>
+			}
+		</style>
+		<?php
+	}
+
+	/**
+	 * Render the component in the header builder.
+	 *
+	 * @param string $astra_header_component_slug The array key of the component.
+	 *
+	 * @return void
+	 */
+	public function render_header_components( $astra_header_component_slug ) {
+		if ( 'dark-mode' !== $astra_header_component_slug ) {
+			return;
+		}
+		?>
+		<div class="ast-builder-layout-element site-header-focus-item ast-header-dark-mode" data-section="section-dark-mode-for-astra">
+			<?php do_action( 'dmfa_render_toggle' ); ?>
+		</div>
+		<?php
 	}
 
 	/**
@@ -102,122 +207,5 @@ class DarkMode {
 		</style>
 
 		<?php
-	}
-
-	/**
-	 * Print the CSS for the Astra color palette to be used for the dark mode.
-	 */
-	public function astra_color_palettes() {
-		$color_palettes           = get_option( 'astra-color-palettes' );
-		$light_mode_color_palette = $color_palettes['currentPalette'];
-		$dark_mode_color_palette  = astra_get_option( 'dmfa-dark-mode-color-scheme', 'palette_2' );
-
-		$light_button_colors = [
-			'button-text-color'              => astra_get_option(
-				'dmfa-light-button-color',
-				$color_palettes['palettes'][ $dark_mode_color_palette ][4]
-			),
-			'button-text-color-active'       => astra_get_option(
-				'dmfa-light-button-h-color',
-				$color_palettes['palettes'][ $dark_mode_color_palette ][4]
-			),
-			'button-background-color'        => astra_get_option(
-				'dmfa-light-button-bg-color',
-				$color_palettes['palettes'][ $dark_mode_color_palette ][0]
-			),
-			'button-background-color-active' => astra_get_option(
-				'dmfa-light-button-bg-h-color',
-				$color_palettes['palettes'][ $dark_mode_color_palette ][1]
-			),
-			'button-border-color'            => astra_get_option(
-				'dmfa-light-color-button-border-group-border-color',
-				$color_palettes['palettes'][ $dark_mode_color_palette ][0]
-			),
-			'button-border-color-active'     => astra_get_option(
-				'dmfa-light-color-button-border-group-border-h-color',
-				$color_palettes['palettes'][ $dark_mode_color_palette ][1]
-			),
-		];
-		$dark_button_colors  = [
-			'button-text-color'              => astra_get_option(
-				'dmfa-dark-button-color',
-				$color_palettes['palettes'][ $light_mode_color_palette ][4]
-			),
-			'button-text-color-active'       => astra_get_option(
-				'dmfa-dark-button-h-color',
-				$color_palettes['palettes'][ $light_mode_color_palette ][4]
-			),
-			'button-background-color'        => astra_get_option(
-				'dmfa-dark-button-bg-color',
-				$color_palettes['palettes'][ $light_mode_color_palette ][0]
-			),
-			'button-background-color-active' => astra_get_option(
-				'dmfa-dark-button-bg-h-color',
-				$color_palettes['palettes'][ $light_mode_color_palette ][1]
-			),
-			'button-border-color'            => astra_get_option(
-				'dmfa-dark-color-button-border-group-border-color',
-				$color_palettes['palettes'][ $light_mode_color_palette ][0]
-			),
-			'button-border-color-active'     => astra_get_option(
-				'dmfa-dark-color-button-border-group-border-h-color',
-				$color_palettes['palettes'][ $light_mode_color_palette ][1]
-			),
-		];
-		?>
-		<style>
-			html:not(.is-dark-theme) {
-			<?php
-			foreach ( $light_button_colors as $key => $value ) {
-				printf(
-					'--ast-dark-mode--%s: %s;',
-					esc_attr( $key ),
-					esc_attr( $value )
-				);
-			}
-			?>
-			}
-
-			html.is-dark-theme {
-			<?php
-			foreach ( $color_palettes['palettes'][ $dark_mode_color_palette ] as $key => $value ) {
-				printf(
-					'--ast-global-color-%d: %s;',
-					(int) $key,
-					esc_attr( $value )
-				);
-			}
-			foreach ( $dark_button_colors as $key => $value ) {
-				printf(
-					'--ast-dark-mode--%s: %s;',
-					esc_attr( $key ),
-					esc_attr( $value )
-				);
-			}
-			?>
-			}
-		</style>
-		<?php
-	}
-
-	/**
-	 * Adds information to the privacy policy.
-	 *
-	 * @return void
-	 */
-	public function add_privacy_policy_content() {
-		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
-			return;
-		}
-		$content = sprintf(
-			'<p class="privacy-policy-tutorial">%1$s</p><strong class="privacy-policy-tutorial">%2$s</strong> %3$s',
-			__( 'Dark Mode for Astra uses LocalStorage when Dark Mode support is enabled.', 'dark-mode-for-astra' ),
-			__( 'Suggested text:', 'dark-mode-for-astra' ),
-			__(
-				'This website uses LocalStorage to save the setting when Dark Mode support is turned on or off.<br> LocalStorage is necessary for the setting to work and is only used when a user clicks on the Dark Mode button.<br> No data is saved in the database or transferred.',
-				'dark-mode-for-astra'
-			)
-		);
-		wp_add_privacy_policy_content( __( 'Dark Mode for Astra', 'dark-mode-for-astra' ), wp_kses_post( wpautop( $content, false ) ) );
 	}
 }
