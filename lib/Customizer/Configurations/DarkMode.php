@@ -1,38 +1,24 @@
 <?php
-/**
- * Class to register client-side assets (scripts and stylesheets) for the Gutenberg block.
- *
- * @package DMFA\Helpers
- */
 
 namespace DMFA\Customizer\Configurations;
 
 use Astra_Builder_Helper;
+use Astra_Customizer_Config_Base;
+use WP_Customize_Manager;
 
 /**
  * Class SiteIcon
  */
-class DarkMode {
-	/**
-	 * Registers all block assets so that they can be enqueued through Gutenberg in the corresponding context.
-	 *
-	 * @see https://wordpress.org/gutenberg/handbook/blocks/writing-your-first-block-type/#enqueuing-block-scripts
-	 */
-	public function init() {
-		add_filter( 'astra_customizer_configurations', [ $this, 'configuration' ] );
-		add_filter( 'astra_header_desktop_items', [ $this, 'header_items' ] );
-		add_filter( 'astra_header_mobile_items', [ $this, 'header_items' ] );
-		add_action( 'astra_render_header_components', [ $this, 'render_header_components' ] );
-	}
-
+class DarkMode extends Astra_Customizer_Config_Base {
 	/**
 	 * Add new Customizer configurations for the dark mode alternative image.
 	 *
-	 * @param array $configurations The Customizer configurations.
+	 * @param array $configurations Astra Customizer Configurations.
+	 * @param WP_Customize_Manager $wp_customize instance of WP_Customize_Manager.
 	 *
 	 * @return array
 	 */
-	public function configuration( $configurations ) {
+	public function register_configuration( $configurations, $wp_customize ) {
 		$_section       = 'section-dark-mode-for-astra';
 		$color_palettes = [
 			'palette_1' => __( 'Style 1', 'dark-mode-for-astra' ),
@@ -99,6 +85,8 @@ class DarkMode {
 				'control'  => 'ast-toggle-control',
 				'divider'  => [ 'ast_class' => 'ast-section-spacing' ],
 			],
+
+			// @TODO: Move these to "Global > Colors", so they can be set per color scheme.
 
 			/**
 			 * Option: Light Mode Color Heading
@@ -421,40 +409,5 @@ class DarkMode {
 		$configurations = array_merge( $configurations, $_configs );
 
 		return $configurations;
-	}
-
-	/**
-	 * Add the Dark Mode component to the header icons.
-	 *
-	 * @param array $items The current header builder items.
-	 *
-	 * @return array
-	 */
-	public function header_items( $items ) {
-		$items['dark-mode'] = [
-			'name'    => __( 'Dark Mode Toggle Button', 'dark-mode-for-astra' ),
-			'icon'    => 'menu',
-			'section' => 'section-dark-mode-for-astra',
-		];
-
-		return $items;
-	}
-
-	/**
-	 * Render the component in the header builder.
-	 *
-	 * @param string $astra_header_component_slug The array key of the component.
-	 *
-	 * @return void
-	 */
-	public function render_header_components( $astra_header_component_slug ) {
-		if ( 'dark-mode' !== $astra_header_component_slug ) {
-			return;
-		}
-		?>
-		<div class="ast-builder-layout-element site-header-focus-item ast-header-dark-mode" data-section="section-dark-mode-for-astra">
-			<?php do_action( 'dmfa_render_toggle' ); ?>
-		</div>
-		<?php
 	}
 }

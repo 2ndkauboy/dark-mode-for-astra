@@ -7,10 +7,12 @@
 
 namespace DMFA;
 
-use DMFA\Customizer\Configurations\DarkMode as DarkModeConfig;
-use DMFA\Customizer\Configurations\SiteIcon;
+use DMFA\Customizer\ConfigurationLoader;
+use DMFA\Customizer\HeaderBuilderItems;
 use DMFA\Helpers\AssetsLoader;
-use DMFA\Helpers\DarkMode;
+use DMFA\Helpers\PrivacyPolicyContent;
+use DMFA\Helpers\SiteIconAttributes;
+use DMFA\Renderer\DarkModeToggler;
 
 /**
  * Init function of the plugin
@@ -18,10 +20,12 @@ use DMFA\Helpers\DarkMode;
 function init() {
 	// Construct all modules to initialize.
 	$modules = [
-		'customizer_config_dark_mode' => new DarkModeConfig(),
-		'customizer_config_site_icon' => new SiteIcon(),
-		'helpers_assets_loader'       => new AssetsLoader(),
-		'helpers_dark_mode'           => new DarkMode(),
+		'customizer_configuration_loader' => new ConfigurationLoader(),
+		'customizer_header_builder_items' => new HeaderBuilderItems(),
+		'helpers_assets_loader'           => new AssetsLoader(),
+		'helpers_privacy_policy_content'  => new PrivacyPolicyContent(),
+		'helpers_site_icon_attributes'    => new SiteIconAttributes(),
+		'renderer_dark_mode_toggler'      => new DarkModeToggler(),
 	];
 
 	// Initialize all modules.
